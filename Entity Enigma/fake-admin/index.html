@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #222;
+            color: white;
+        }
+        h1 { color: red; }
+        .btn {
+            background: red;
+            padding: 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .logs {
+            background: black;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #0f0;
+            font-family: monospace;
+            text-align: left;
+            max-width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚠️ Restricted Area ⚠️</h1>
+    <p>Only authorized users can access these reports.</p>
+    
+    <div class="logs">
+        <p>Loading system logs...</p>
+        <p><strong>[LOG]</strong> User attempted to access /admin</p>
+        <p><strong>[LOG]</strong> Invalid session detected</p>
+        <p><strong>[ERROR]</strong> System access denied</p>
+    </div>
+
+    <p><i>Hint: Look deeper into how XML is processed.</i></p>
+
+    <button class="btn" onclick="alert('Access Denied!')">Request Access</button>
+</body>
+</html>
