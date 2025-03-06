@@ -1,1 +1,1 @@
-CTF{SSTI_Bypass_With_Hex_Encoding}
+BAU{SSTI_Bypass_With_Hex_Encoding}
