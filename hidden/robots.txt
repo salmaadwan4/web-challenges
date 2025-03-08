@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /admin
 Disallow: /hidden_backup
-Disallow: /flag.txt
+Disallow: /YouFoundMe.txt
