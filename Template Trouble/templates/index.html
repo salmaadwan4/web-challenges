@@ -17,13 +17,7 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <div class="container mx-auto p-4">
-        <h1 class="text-4xl font-bold text-center mb-8">Modern SSTI Challenge</h1>
-        
-        <!-- Dark Mode Toggle -->
-        <div class="flex justify-end mb-4">
-            <button id="dark-mode-toggle" class="p-2 bg-gray-200 dark:bg-gray-700 rounded">
-                🌙
-            </button>
+        <h1 class="text-4xl font-bold text-center mb-8">Sandbox Studio</h1>
         </div>
 
         <!-- Template Input Form -->
@@ -54,16 +48,4 @@
 
         <!-- Hints Section -->
     </div>
-
-    <!-- Dark Mode Script -->
-    <script>
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const body = document.body;
-
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark');
-            darkModeToggle.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
-        });
-    </script>
-</body>
 </html>
