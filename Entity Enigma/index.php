@@ -1,235 +1,144 @@
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $xmlData = $_POST['xmlInput'];
-
-    libxml_disable_entity_loader(false);
-    $dom = new DOMDocument();
-    if (!$dom->loadXML($xmlData, LIBXML_NOENT | LIBXML_DTDLOAD)) {
-        die('<div class="alert error"><i class="fas fa-times-circle"></i> Invalid XML document!</div>');
-    }
-
-    $vaultData = simplexml_import_dom($dom);
-    sleep(2); // Processing delay
-
-    echo '<div class="alert success">';
-    echo '<i class="fas fa-check-circle"></i>';
-    echo '<h2>Document Processed Successfully!</h2>';
-    echo '<div class="result-box">';
-    echo '<p class="meta">Security Log ID</p>';
-    echo '<div class="output">'.htmlspecialchars($vaultData->message).'</div>';
-    echo '</div></div>';
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Vault Manager | XML Processor</title>
+    <title>Pet Haven | Your Pet's Favorite Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --success: #22c55e;
-            --error: #ef4444;
-            --background: #f8fafc;
-            --surface: #ffffff;
+            --background: #121212;
+            --surface: #1e1e1e;
+            --primary: #bb86fc;
+            --text: #e0e0e0;
+            --border: #333;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
-
         body {
             background: var(--background);
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-            padding: 1rem;
+            color: var(--text);
         }
-
         .container {
-            background: var(--surface);
-            width: 100%;
-            max-width: 680px;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            padding: 2.5rem;
-            margin: 2rem 0;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .header h1 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-        }
-
-        .header p {
-            color: #64748b;
-        }
-
-        .editor-container {
-            border: 2px dashed #cbd5e1;
-            border-radius: 0.75rem;
+            max-width: 1200px;
+            margin: auto;
             padding: 2rem;
-            background: #f8fafc;
-            transition: border-color 0.3s ease;
-            margin-bottom: 1.5rem;
         }
-
-        .editor-container:hover {
-            border-color: var(--primary);
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: var(--surface);
+            border-radius: 10px;
+            margin-bottom: 2rem;
         }
-
-        #xmlInput {
+        .products, .testimonials, .blog {
+            margin-bottom: 3rem;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+        .card img {
             width: 100%;
-            height: 200px;
+            height: auto;
+            border-radius: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #222;
+            color: var(--text);
+            border: 1px solid var(--border);
             padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 0.5rem;
-            background: white;
-            font-family: monospace;
-            resize: vertical;
-            transition: border-color 0.3s ease;
+            border-radius: 5px;
         }
-
-        #xmlInput:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
         button {
+            width: 100%;
+            padding: 1rem;
             background: var(--primary);
             color: white;
-            padding: 1rem 2rem;
             border: none;
-            border-radius: 0.5rem;
-            font-weight: 500;
+            border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .alert {
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin: 1.5rem 0;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .alert i {
-            font-size: 1.5rem;
-            margin-top: 0.25rem;
-        }
-
-        .success {
-            background: #f0fdf4;
-            color: var(--success);
-            border: 2px solid #bbf7d0;
-        }
-
-        .error {
-            background: #fef2f2;
-            color: var(--error);
-            border: 2px solid #fecaca;
-        }
-
-        .result-box {
-            flex-grow: 1;
-        }
-
-        .result-box h2 {
-            color: #1e293b;
-            margin-bottom: 1rem;
-        }
-
-        .output {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid #e2e8f0;
-            font-family: monospace;
-            word-break: break-all;
-        }
-
-        .meta {
-            color: #64748b;
-            font-size: 0.875rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .hint {
-            text-align: center;
-            color: #64748b;
-            margin-top: 1.5rem;
-            font-size: 0.875rem;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--primary);
-        }
-
-        .loading i {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Secure Vault Manager</h1>
-            <p>Validate XML security documents for system integration</p>
+        <div class="hero">
+            <h1>Welcome to Pet Haven</h1>
+            <p>Your one-stop shop for pet supplies and accessories.</p>
         </div>
-
-        <div class="editor-container">
-            <form method="POST" action="" id="docForm">
-                <textarea 
-                    id="xmlInput"
-                    name="xmlInput"
-                    placeholder="<?= htmlspecialchars('<!-- Paste your XML document here -->\n<data>\n  <message>Sample</message>\n</data>') ?>"
-                ></textarea>
-                <button type="submit">Validate Document →</button>
+        
+        <div class="products">
+            <h2 class="section-title">Featured Products</h2>
+            <div class="grid">
+                <div class="card">
+                    <img src="https://lyka.com.au/opengraph.jpg" alt="Dog Food">
+                    <h3>Premium Dog Food</h3>
+                    <p>High-quality nutrition for your furry friend.</p>
+                </div>
+                <div class="card">
+                    <img src="https://www.purina-arabia.com/sites/default/files/2020-12/Article%20teaser%20cat%20games.jpg" alt="Cat Toy">
+                    <h3>Interactive Cat Toy</h3>
+                    <p>Keep your cat entertained for hours.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonials">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="grid">
+                <div class="card">
+                    <p>"Amazing store! My dog loves their treats!" - Sarah L.</p>
+                </div>
+                <div class="card">
+                    <p>"Best quality pet products at great prices." - John D.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="blog">
+            <h2 class="section-title">Latest Pet Care Tips</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>How to Train Your Puppy</h3>
+                    <p>Essential tips for first-time pet owners.</p>
+                </div>
+                <div class="card">
+                    <h3>Choosing the Right Cat Food</h3>
+                    <p>What nutrients your cat really needs.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comment-section">
+            <h2 class="section-title">Leave a Comment</h2>
+            <form method="POST" action="">
+                <textarea name="xmlInput" placeholder="&lt;comment&gt;\n  &lt;message&gt;Hello, world!&lt;/message&gt;\n&lt;/comment&gt;"></textarea>
+                <button type="submit">Submit Comment</button>
             </form>
         </div>
-
-        <div class="loading">
-            <i class="fas fa-spinner"></i> Analyzing document structure...
-        </div>
-
-        <p class="hint">
-            🔒 Restricted access: <a href="/admin" style="color: var(--primary); text-decoration: none;">Admin portal</a>
-        </p>
     </div>
-
-    <script>
-        document.getElementById('docForm').addEventListener('submit', () => {
-            document.querySelector('.loading').style.display = 'block';
-        });
-    </script>
 </body>
 </html>
