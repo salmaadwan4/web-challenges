@@ -3,65 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enchanted Emporium</title>
+    <title>Book Haven</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body {
-            background: linear-gradient(180deg, #1a1a2e, #16213e);
-            color: #e0e0e0;
-            font-family: 'Cinzel', serif;
+        .fade-in {
+            animation: fadeIn 0.5s;
         }
-        .magic-glow {
-            text-shadow: 0 0 15px #ffcc00;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 20px;
+        .book-card {
+            transition: transform 0.3s ease-in-out;
         }
-        .button-magic {
-            background: linear-gradient(45deg, #ff8800, #ff2200);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: 0.3s;
-        }
-        .button-magic:hover {
-            background: linear-gradient(45deg, #ffcc00, #ff4400);
-            transform: scale(1.1);
+        .book-card:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="text-gray-200">
+<body class="bg-gray-900 text-gray-100">
     <div class="container mx-auto p-6">
-        <h1 class="text-5xl font-bold text-center magic-glow">Enchanted Emporium</h1>
-        <p class="text-center mt-2 text-lg">Your source for mystical artifacts and spellbinding wonders.</p>
+        <h1 class="text-5xl font-extrabold text-center mb-10 text-indigo-500">Book Haven</h1>
+        <p class="text-center text-lg text-gray-300 mb-8">Explore our extensive collection of books and immerse yourself in new worlds!</p>
 
-        <!-- Template Input Form -->
-        <form action="/render" method="POST" class="mt-8 max-w-lg mx-auto glass">
-            <div class="mb-4">
-                <label for="template" class="block text-lg font-medium">Enter your mystical inscription:</label>
-                <textarea id="template" name="template" rows="4" class="w-full p-2 border border-gray-500 rounded bg-gray-900 text-gray-200">{{ template if template else '' }}</textarea>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+           
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg book-card">
+                <h2 class="text-2xl font-bold text-indigo-500 mb-4">The Art of Magic</h2>
+                <p class="text-gray-300 mb-4">A deep dive into the art and science of magic.</p>
+                <span class="block text-lg font-bold text-indigo-500 mb-4">$29.99</span>
+                <button class="w-full bg-indigo-500 text-white py-2 rounded hover:bg-indigo-600">Add to Cart</button>
             </div>
-            <button type="submit" class="button-magic w-full">Cast Spell</button>
+
+            
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg book-card">
+                <h2 class="text-2xl font-bold text-indigo-500 mb-4">Ancient Runes</h2>
+                <p class="text-gray-300 mb-4">Unlock the secrets of ancient languages and symbols.</p>
+                <span class="block text-lg font-bold text-indigo-500 mb-4">$39.99</span>
+                <button class="w-full bg-indigo-500 text-white py-2 rounded hover:bg-indigo-600">Add to Cart</button>
+            </div>
+
+           
+            <div class="bg-gray-800 p-6 rounded-lg shadow-lg book-card">
+                <h2 class="text-2xl font-bold text-indigo-500 mb-4">The Sorcery Compendium</h2>
+                <p class="text-gray-300 mb-4">A comprehensive guide to the world of sorcery and spells.</p>
+                <span class="block text-lg font-bold text-indigo-500 mb-4">$49.99</span>
+                <button class="w-full bg-indigo-500 text-white py-2 rounded hover:bg-indigo-600">Add to Cart</button>
+            </div>
+        </div>
+
+        
+        <form action="/render" method="POST" class="mb-8 bg-gray-800 p-6 rounded-lg shadow-lg">
+            <div class="mb-4">
+                <label for="template" class="block text-lg font-medium mb-2 text-gray-300">Customize Your Book Order:</label>
+                <textarea id="template" name="template" rows="4" class="w-full p-2 border border-gray-600 rounded bg-gray-900 text-gray-100">{{ template if template else '' }}</textarea>
+            </div>
+            <button type="submit" class="bg-indigo-500 text-white px-4 py-2 rounded hover:bg-indigo-600">Submit Order</button>
         </form>
 
-        <!-- Rendered Output -->
+       
         {% if rendered %}
-        <div class="mt-8 glass p-4">
-            <h2 class="text-2xl font-bold magic-glow">Mystical Outcome:</h2>
-            <div class="p-4 bg-gray-900 border border-gray-700 rounded">
-                <pre class="whitespace-pre-wrap">{{ rendered }}</pre>
-            </div>
+        <div class="fade-in mt-6 p-4 bg-gray-800 border border-gray-600 rounded">
+            <h2 class="text-2xl font-bold mb-4 text-indigo-500">Order Summary:</h2>
+            <pre class="whitespace-pre-wrap text-gray-300">{{ rendered }}</pre>
         </div>
         {% endif %}
 
-        <!-- Error Message -->
         {% if error %}
-        <div class="mt-8 p-4 bg-red-900 border border-red-600 rounded">
-            <p class="text-red-300 font-bold">Error: {{ error }}</p>
+        <div class="fade-in mt-8 p-4 bg-red-900 border border-red-600 rounded">
+            <p class="text-red-200"><strong>Error:</strong> {{ error }}</p>
         </div>
         {% endif %}
     </div>
