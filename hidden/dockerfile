@@ -4,8 +4,8 @@ FROM php:8.2-apache
 # Copy all files to Apache root
 COPY . /var/www/html/
 
-# Copy flag.txt to the web root
-COPY flag.txt /var/www/html/flag.txt
+# Copy YouFoundMe.txt to the web root
+COPY YouFoundMe.txt /var/www/html/YouFoundMe.txt
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html && \
