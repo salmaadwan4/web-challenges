@@ -1,28 +1,26 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $xmlData = $_POST['xmlInput'];
-
+    header("Content-Type: application/xml; charset=UTF-8"); // Set XML response type
     
+    $xmlData = $_POST['xmlInput'];
+    
+    // Load XML securely
     $dom = new DOMDocument();
-    // Load XML with options to resolve entities and load DTD
+    
     if (!$dom->loadXML($xmlData, LIBXML_NOENT | LIBXML_DTDLOAD)) {
-        die("<p style='color: #ff0066;'>:x: Invalid XML document!</p>");
+        die("<?xml version='1.0' encoding='UTF-8'?><response><error>Invalid XML document!</error></response>");
     }
 
-    // Convert DOM to SimpleXML for easier access
+    // Convert DOM to SimpleXML
     $vaultData = simplexml_import_dom($dom);
-    
-    // Fake "Processing" delay (for realism)
-    sleep(2);
 
-    // Enhanced stylish output
-    echo "<div style='display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4;'>";
-    echo "<div style='max-width: 500px; padding: 20px; background: linear-gradient(135deg, #ff758c, #ff7eb3); border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); text-align: center; font-family: Poppins, sans-serif;'>";
-    echo "<h2 style='color: #fff; font-size: 24px;'>✔ Document Processed Successfully!</h2>";
-    echo "<p style='color: #fff; font-size: 18px;'><strong>Security Log ID:</strong> " . htmlspecialchars($vaultData) . "</p>";
-    echo "<a href='/' style='display: inline-block; margin-top: 15px; padding: 10px 20px; background: #fff; color: #ff758c; text-decoration: none; border-radius: 5px; font-weight: bold;'>Go Back</a>";
-    echo "</div>";
-    echo "</div>";
+    // XML Response Output
+    echo "<?xml version='1.0' encoding='UTF-8'?>\n";
+    echo "<response>\n";
+    echo "    <status>success</status>\n";
+    echo "    <message>Document Processed Successfully</message>\n";
+    echo "    <security_log_id>" . htmlspecialchars($vaultData) . "</security_log_id>\n";
+    echo "</response>";
     exit;
 }
 ?>
@@ -134,10 +132,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
         
+        <div class="testimonials">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="grid">
+                <div class="card">
+                    <p>"Amazing store! My dog loves their treats!" - Sarah L.</p>
+                </div>
+                <div class="card">
+                    <p>"Best quality pet products at great prices." - John D.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="blog">
+            <h2 class="section-title">Latest Pet Care Tips</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>How to Train Your Puppy</h3>
+                    <p>Essential tips for first-time pet owners.</p>
+                </div>
+                <div class="card">
+                    <h3>Choosing the Right Cat Food</h3>
+                    <p>What nutrients your cat really needs.</p>
+                </div>
+            </div>
+        </div>
+        
         <div class="comment-section">
             <h2 class="section-title">Leave a Comment</h2>
             <form method="POST" action="">
-                <textarea name="xmlInput" placeholder="Hello!"></textarea>
+                <textarea name="xmlInput" placeholder="&lt;comment&gt;\n  &lt;message&gt;Hello, world!&lt;/message&gt;\n&lt;/comment&gt;"></textarea>
                 <button type="submit">Submit Comment</button>
             </form>
         </div>
